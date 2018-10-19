@@ -58312,39 +58312,44 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Todo",
-  props: ["todo"],
-  data: function data() {
-    return {
-      editedTodo: null,
-      beforeEditCache: ""
-    };
-  },
+    name: "Todo",
+    props: ["todo"],
+    data: function data() {
+        return {
+            // editedTodo: null,
+            // beforeEditCache: ""
+        };
+    },
 
-  methods: {
-    editTodo: function editTodo(todo) {
-      this.beforeEditCache = todo.title;
-      this.editedTodo = todo;
+    computed: {
+        completed: function completed() {
+            return this.todo.completed === 1;
+        }
     },
-    doneEdit: function doneEdit(todo) {
-      if (!this.editedTodo) {
-        return;
-      }
-      this.editedTodo = null;
-      todo.title = todo.title.trim();
-      if (!todo.title) {
-        this.removeTodo(todo);
-      }
-    },
-    cancelEdit: function cancelEdit(todo) {
-      this.editedTodo = null;
-      todo.title = this.beforeEditCache;
-    },
-    removeTodo: function removeTodo(todo) {
-      this.$store.state.toRemove = todo;
-      this.$store.dispatch("DELETE_TODO", todo);
+    methods: {
+        /*   editTodo(todo) {
+               this.beforeEditCache = todo.title;
+               this.editedTodo = todo;
+           },
+           doneEdit(todo) {
+               if (!this.editedTodo) {
+                   return;
+               }
+               this.editedTodo = null;
+               todo.title = todo.title.trim();
+               if (!todo.title) {
+                   this.removeTodo(todo);
+               }
+           },
+           cancelEdit(todo) {
+               this.editedTodo = null;
+               todo.title = this.beforeEditCache;
+           },*/
+        removeTodo: function removeTodo(todo) {
+            this.$store.commit("CACHE_REMOVED", todo);
+            this.$store.dispatch("DELETE_TODO", todo);
+        }
     }
-  }
 });
 
 /***/ }),
@@ -58357,13 +58362,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "li",
-    {
-      staticClass: "todo",
-      class: {
-        completed: _vm.todo.completed,
-        editing: _vm.todo == _vm.editedTodo
-      }
-    },
+    { staticClass: "todo", class: { completed: _vm.todo.completed } },
     [
       _c("div", { staticClass: "view" }, [
         _c("input", {
@@ -58407,17 +58406,7 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _c(
-          "label",
-          {
-            on: {
-              dblclick: function($event) {
-                _vm.editTodo(_vm.todo)
-              }
-            }
-          },
-          [_vm._v(_vm._s(_vm.todo.title))]
-        ),
+        _c("label", [_vm._v(_vm._s(_vm.todo.title))]),
         _vm._v(" "),
         _c("button", {
           staticClass: "destroy",
@@ -58427,26 +58416,7 @@ var render = function() {
             }
           }
         })
-      ]),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "edit",
-        attrs: { type: "text" },
-        on: {
-          keyup: function($event) {
-            if (
-              !("button" in $event) &&
-              _vm._k($event.keyCode, "esc", 27, $event.key, "Escape")
-            ) {
-              return null
-            }
-            _vm.cancelEdit(_vm.todo)
-          },
-          blur: function($event) {
-            _vm.doneEdit(_vm.todo)
-          }
-        }
-      })
+      ])
     ]
   )
 }
@@ -58552,9 +58522,9 @@ if (false) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuex__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Todo__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Todo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Todo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Todo__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Todo___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Todo__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(3);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 //
@@ -58567,30 +58537,35 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 //
 //
 //
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "TodoList",
-  data: function data() {
-    return {};
-  },
-  mounted: function mounted() {
-    this.$store.dispatch("GET_TODOS");
-  },
+    components: {
+        todo: __WEBPACK_IMPORTED_MODULE_0__components_Todo___default.a
+    },
+    name: "TodoList",
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {
+        this.$store.dispatch("GET_TODOS");
+    },
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_0_vuex__["b" /* mapGetters */])(["todos", "remaining"]), {
-    allDone: {
-      get: function get() {
-        return this.remaining.length === 0;
-      },
-      set: function set(value) {
-        this.todos.forEach(function (todo) {
-          todo.completed = true;
-        });
-      }
-    }
-  })
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["b" /* mapGetters */])(["todos", "remaining"]), {
+        allDone: {
+            get: function get() {
+                return this.remaining.length === 0;
+            },
+            set: function set(value) {
+                this.todos.forEach(function (todo) {
+                    todo.completed = true;
+                });
+            }
+        }
+    })
 });
 
 /***/ }),
@@ -58601,52 +58576,13 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("input", {
-      directives: [
-        {
-          name: "model",
-          rawName: "v-model",
-          value: _vm.allDone,
-          expression: "allDone"
-        }
-      ],
-      staticClass: "toggle-all",
-      attrs: { type: "checkbox" },
-      domProps: {
-        checked: Array.isArray(_vm.allDone)
-          ? _vm._i(_vm.allDone, null) > -1
-          : _vm.allDone
-      },
-      on: {
-        change: function($event) {
-          var $$a = _vm.allDone,
-            $$el = $event.target,
-            $$c = $$el.checked ? true : false
-          if (Array.isArray($$a)) {
-            var $$v = null,
-              $$i = _vm._i($$a, $$v)
-            if ($$el.checked) {
-              $$i < 0 && (_vm.allDone = $$a.concat([$$v]))
-            } else {
-              $$i > -1 &&
-                (_vm.allDone = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-            }
-          } else {
-            _vm.allDone = $$c
-          }
-        }
-      }
-    }),
-    _vm._v(" "),
-    _c(
-      "ul",
-      { staticClass: "todo-list" },
-      _vm._l(_vm.todos, function(todo) {
-        return _c("todo", { key: todo.id, attrs: { todo: todo } })
-      })
-    )
-  ])
+  return _c(
+    "ul",
+    { staticClass: "todo-list" },
+    _vm._l(_vm.todos, function(todo) {
+      return _c("todo", { key: todo.id, attrs: { todo: todo } })
+    })
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -58744,7 +58680,7 @@ exports = module.exports = __webpack_require__(58)(false);
 
 
 // module
-exports.push([module.i, "\n.todoapp h1 {\n  position: absolute;\n  top: -155px;\n  width: 100%;\n  font-size: 100px;\n  font-weight: 100;\n  text-align: center;\n  color: rgba(175, 47, 47, 0.15);\n  -webkit-text-rendering: optimizeLegibility;\n  -moz-text-rendering: optimizeLegibility;\n  text-rendering: optimizeLegibility;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -59119,28 +59055,30 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "TodoApp",
-  data: function data() {
-    return {};
-  },
-  mounted: function mounted() {
-    var _this = this;
+    components: {
+        newTodo: __WEBPACK_IMPORTED_MODULE_0__components_NewTodo_vue___default.a,
+        todoList: __WEBPACK_IMPORTED_MODULE_1__components_TodoList_vue___default.a
+    },
+    name: "TodoApp",
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {
+        var _this = this;
 
-    window.Echo.channel("newTask").listen(".task-created", function (e) {
-      _this.$store.commit("ADD_TODO", e.task);
-      _this.newTodo.title = "";
-    });
+        window.Echo.channel("newTask").listen(".task-created", function (e) {
+            _this.$store.commit("ADD_TODO", e.task);
+            _this.newTodo.title = "";
+        });
 
-    window.Echo.channel("taskRemoved").listen(".task-removed", function (e) {
-      // console.log(e.task)
-      _this.$store.state.toRemove = e.task;
-      console.log(_this.toRemove);
-      _this.$store.commit("DELETE_TODO", _this.toRemove);
-    });
-  },
+        window.Echo.channel("taskRemoved").listen(".task-removed", function (e) {
+            _this.$store.commit("DELETE_TODO", _this.toRemove);
+        });
+    },
 
-  computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])(["newTodo", "toRemove"]))
+    computed: _extends({}, Object(__WEBPACK_IMPORTED_MODULE_2_vuex__["b" /* mapGetters */])(["newTodo", "toRemove"]))
 });
 
 /***/ }),
@@ -59265,6 +59203,9 @@ var actions = {
 var mutations = {
     ADD_TODO: function ADD_TODO(state, todo) {
         state.todos.unshift(todo);
+    },
+    CACHE_REMOVED: function CACHE_REMOVED(state, todo) {
+        state.toRemove = todo;
     },
     GET_TODOS: function GET_TODOS(state, todos) {
         state.todos = todos;

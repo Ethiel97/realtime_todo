@@ -7,12 +7,6 @@ use Illuminate\Database\Migrations\Migration;
 class CreateTasksTable extends Migration
 {
 
-
-
-
-
-
-
 	/**
 	* Run the migrations.
 	    *
@@ -30,11 +24,6 @@ class CreateTasksTable extends Migration
 		}
 		);
 	}
-
-
-
-
-
 
 
 

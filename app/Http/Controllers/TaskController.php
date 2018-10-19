@@ -14,7 +14,7 @@ class TaskController extends Controller
 
 		$tasks = Task::all();
 
-		return response()->json($tasks);
+		return $tasks;
 	}
 
 	public function store(Request $request){

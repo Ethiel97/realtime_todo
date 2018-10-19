@@ -3,6 +3,10 @@ let mutations = {
         state.todos.unshift(todo)
     },
 
+    CACHE_REMOVED(state, todo) {
+        state.toRemove = todo;
+    },
+
     GET_TODOS(state, todos) {
         state.todos = todos
     },
