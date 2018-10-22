@@ -13,7 +13,7 @@ Make sure you have `npm` and `composer` on your local machine
 2.  Run `composer install` and `npm install` to download laravel dependencies
 3.  Run `php artisan key:generate` to generate a key for the app
 4.  Set up your [pusher account](https://dashboard.pusher.com/accounts/sign_up)
-5.  Set up your database in your `.env` file and run php `php artisan migrate --seed`
+5.  Set up your database in your `.env`
 6.  Execute `npm run dev` to build project assets
 7.  Execute `php artisan serve` to run the project in your browser
 8.  See the [tutorial](https://pusher.com/tutorials/search-laravel-vue) for useful notes 
