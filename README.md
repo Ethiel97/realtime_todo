@@ -17,7 +17,7 @@ Make sure you have `npm` and `composer` on your local machine
 6.  Run `php artisan migrate` to build your database with tables
 7.  Execute `npm run dev` to build project assets
 8.  Execute `php artisan serve` to run the project in your browser
-9.  See the [tutorial](https://pusher.com/tutorials/search-laravel-vue) for useful notes 
+9.  See the [tutorial](https://pusher.com/tutorials/todo-vue-laravel) for useful notes 
 
 ### Prerequisites
 
